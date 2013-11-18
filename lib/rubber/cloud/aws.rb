@@ -3,11 +3,11 @@ require 'rubber/cloud/aws_table_store'
 
 module Rubber
   module Cloud
-  
+
     class Aws < Fog
-      
+
       def initialize(env, capistrano)
-        
+
         compute_credentials = {
           :aws_access_key_id => env.access_key,
           :aws_secret_access_key => env.secret_access_key
@@ -20,7 +20,7 @@ module Rubber
         }
 
         @table_store = ::Fog::AWS::SimpleDB.new(compute_credentials)
-        
+
         compute_credentials[:region] = env.region
         @elb = ::Fog::AWS::ELB.new(compute_credentials)
 
@@ -32,9 +32,9 @@ module Rubber
         env['storage_credentials'] = storage_credentials
         super(env, capistrano)
       end
-      
+
       def table_store(table_key)
-        return Rubber::Cloud::AwsTableStore.new(@table_store, table_key)  
+        return Rubber::Cloud::AwsTableStore.new(@table_store, table_key)
       end
 
       def describe_instances(instance_id=nil)
@@ -115,7 +115,7 @@ module Rubber
           raise "Set #{k} in rubber.yml" unless "#{env[k]}".strip.size > 0
         end
         raise "create_image can only be called from a capistrano scope" unless capistrano
- 
+
         ec2_key = env.key_file
         ec2_pk = env.pk_file
         ec2_cert = env.cert_file
@@ -125,7 +125,7 @@ module Rubber
         ec2_cert_dest = "/mnt/#{File.basename(ec2_cert)}"
 
         storage(env.image_bucket).ensure_bucket
-        
+
         capistrano.put(File.read(ec2_key), ec2_key_dest)
         capistrano.put(File.read(ec2_pk), ec2_pk_dest)
         capistrano.put(File.read(ec2_cert), ec2_cert_dest)
@@ -145,7 +145,7 @@ module Rubber
             echo -n .
             sleep 5
           done
-          
+
           # this returns exit code even if pid has already died, and thus triggers fail fast shell error
           wait $bg_pid
         CMD
@@ -283,7 +283,7 @@ module Rubber
               rule[:source_groups] ||= []
               source_group = {}
               source_group[:account] = rule_group["userId"]
-              source_group[:name] = rule_group["groupName"]
+              source_group[:name] = rule_group["groupName"] || item.name
               rule[:source_groups] << source_group
             end if ip_item["groups"]
 
@@ -390,6 +390,7 @@ module Rubber
         return unless groups
 
         groups = Rubber::Util::stringify(groups)
+        groups.delete_if{|k,v| k.is_a?(Array) }
         groups = isolate_groups(groups)
         group_keys = groups.keys.clone()
 
