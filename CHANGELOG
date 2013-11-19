@@ -1,9 +1,77 @@
+2.6.3 (11/19/2013)
+
+Improvements:
+============
+
+[core] Drastically improved the speed of repeated configuration lookups.
+[core] Fixed a potential issue uploading backups to S3 if the bucket name contains the '.' character. <7ea9f39>
+
+Bug Fixes:
+=========
+
+[core] Fixed creating EBS volumes (issue #417). <a7d47c5>
+
+
+2.6.2 (11/07/2013)
+
+Improvements:
+============
+
+[memcached]  Added configuration of max memcached memory size through rubber var 'memcached_max_mem'. <ba28c39>
+[cassandra] Quote all `rubber_env.host` in Monit config template in case hostname conflicts with monit keyword. <61bd9b1>
+[graphite] Quote all `rubber_env.host` in Monit config template in case hostname conflicts with monit keyword. <61bd9b1>
+[elasticsearch] Quote all `rubber_env.host` in Monit config template in case hostname conflicts with monit keyword. <61bd9b1>
+[graylog] Quote all `rubber_env.host` in Monit config template in case hostname conflicts with monit keyword. <61bd9b1>
+[jetty] Quote all `rubber_env.host` in Monit config template in case hostname conflicts with monit keyword. <61bd9b1>
+[mongrel] Quote all `rubber_env.host` in Monit config template in case hostname conflicts with monit keyword. <61bd9b1>
+[redis] Quote all `rubber_env.host` in Monit config template in case hostname conflicts with monit keyword. <61bd9b1>
+[sphinx] Quote all `rubber_env.host` in Monit config template in case hostname conflicts with monit keyword. <61bd9b1>
+[torquebox] Quote all `rubber_env.host` in Monit config template in case hostname conflicts with monit keyword. <61bd9b1>
+[zookeeper] Quote all `rubber_env.host` in Monit config template in case hostname conflicts with monit keyword. <61bd9b1>
+
+Bug Fixes:
+=========
+
+[base] Fixed unknown method 'known_roles' when running create_staging. <44167c4>
+[core] Fixed ip_address deprecation for digital ocean. <62d2e90>
+[core] Fixed a thread safety issue in Capistrano via a monkey-patch. <f3f9086>
+
+
+2.6.1 (11/06/2013)
+
+Improvements:
+============
+
+[core] Don't try to connect to the fog compute or storage providers until we actually need them. <5536511>
+
+Bug Fixes:
+=========
+
+[core] Fixed a bug attaching EBS volumes, introduced by a recent refactoring. <51d2619>
+[core] Fixed setup_remote_aliases to work when an SSH gateway is in place. <3a776f9>
+
+
+2.6.0 (11/05/2013)
+
+New Features:
+============
+
+[core] Added a new provider for vSphere.  See https://github.com/rubber/rubber/wiki/Providers for configuration details.
+
+Improvements:
+============
+
+[base] Upgraded to ruby-build 20131030 <214423d>
+[base] Enhances database.yml to respond to active environment, not just 'production' <3843caf>
+
+
 2.5.5 (10/16/2013)
 
 New Features:
 ============
 
 [base, core, postgresql] Added a uniform way of handling private network address blocks <61c5e0c>
+[core] Added cleanup hook for 'vagrant destroy' for Vagrant version >= 1.3.0. <2a3c441>
 
 Improvements:
 ============
